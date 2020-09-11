@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.EbuyDAO">
+	<!-- 根据用户uid查询订单信息 -->
+	<select id="selectAllUser" resultType="po.User">
+		select * from user where 1=1
+	</select>
+	<insert id="addUser" parameterType="po.User">
+		insert into user(account,password,nikename,realname,sex,phone,address,email) values(#{account},#{password},#{nikename},#{realname},#{sex},#{phone},#{address},#{email})
+	</insert>
+	<select id="userLogin" resultType="po.User">
+		select * from user where account=#{account} and password=#{password} LIMIT 1
+	</select>
+	<select id="selectUserById" resultType="po.User">
+		select * from user where uid=#{uid}
+	</select>
+	<select id="selectUserByAccount" resultType="po.User">
+		select * from user where account=#{account}
+	</select>
+	<update id="changeUser" parameterType="po.User">
+		update user set account=#{account},password=#{password},nikename=#{nikename},realname=#{realname},sex=#{sex},phone=#{phone},address=#{address},email=#{email} where uid=#{uid}
+	</update>
+
+
+	<insert id="addGoods" parameterType="po.Goods">
+		insert into goods(gname,price,sellstaus,createtime,sellerid,content) values(#{gname},#{price},#{sellstaus},#{createtime},#{sellerid},#{content})
+	</insert>
+	<update id="changeGoods" parameterType="po.Goods">
+		update goods set gname=#{gname},price=#{price},sellstaus=#{sellstaus},createtime=#{createtime},sellerid=#{sellerid},content=#{content} where gid=#{gid}
+	</update>
+	<delete id="delGoods" parameterType="po.Goods">
+		delete from goods where gid=#{gid}
+	</delete>
+	<select id="selectGoodsByUId" resultType="po.Goods">
+		select * from goods where sellerid=#{uid}
+	</select>
+	<select id="selectGoodsByGId" resultType="po.Goods">
+		select * from goods where gid=#{gid}
+	</select>
+	<select id="selectAllGoods" resultType="po.Goods">
+		select * from goods where sellstaus=1
+	</select>
+
+
+	<insert id="addOrders" parameterType="po.Orders">
+		insert into orders(sellerid,buyid,gid,createtime,selltime,address) values(#{sellerid},#{buyid},#{gid},#{createtime},#{selltime},#{address})
+	</insert>
+	<update id="changeOrders" parameterType="po.Orders">
+		update orders set address=#{address} where oid=#{oid}
+	</update>
+	<select id="selectOrdersBySellerId" resultType="po.Orders">
+		select * from orders where sellerid=#{uid}
+	</select>
+	<select id="selectOrdersByBuyId" resultType="po.Orders">
+		select * from orders where buyid=#{uid}
+	</select>
+	<select id="selectOrdersByOId" resultType="po.Orders">
+		select * from orders where oid=#{oid}
+	</select>
+	<delete id="delOrders" parameterType="po.Orders">
+		delete from orders where oid=#{oid}
+	</delete>
+
+
+	<insert id="addComments" parameterType="po.Comments">
+		insert into comments(sendid,goodsid,sendtime,content) values(#{sendid},#{goodsid},#{sendtime},#{content})
+	</insert>
+	<update id="changeComments" parameterType="po.Comments">
+		update comments set content=#{content} where cid=#{cid}
+	</update>
+	<select id="selectCommentsByGid" resultType="po.Comments">
+		select * from comments where goodsid=#{gid}
+	</select>
+	<select id="selectCommentsByCid" resultType="po.Comments">
+		select * from comments where cid=#{cid}
+	</select>
+	<delete id="delComments" parameterType="po.Comments">
+		delete from comments where cid=#{cid}
+	</delete>
+
+	<insert id="addStart" parameterType="po.Start">
+		insert into start(sid,uid,gid,createtime,gname,price) values(#{sid},#{uid},#{gid},#{createtime},#{gname},#{price})
+	</insert>
+	<select id="selectStartBySellerId" resultType="po.Start">
+		select * from start where sid=#{sid}
+	</select>
+	<select id="selectStartByuid" resultType="po.Start">
+		select * from start where uid=#{uid}
+	</select>
+	<delete id="delStart" parameterType="po.Start">
+		delete from start where sid=#{sid}
+	</delete>
+
+
+	<insert id="addMessages" parameterType="po.Messages">
+		insert into message(sendid,getid,sendtime,content) values(#{sendid},#{getid},#{sendtime},#{content})
+	</insert>
+	<select id="selectMessagesBymid" resultType="po.Messages">
+		select * from message where mid=#{mid}
+	</select>
+	<select id="selectMessagesBysendid"  resultType="po.Messages">
+		select * from message where (sendid=#{arg0} AND getid=#{arg1})
+	</select>
+	<select id="selectMessagesBygetid" resultType="po.Messages">
+		select * from message where (sendid=#{arg0} AND getid=#{arg1})
+	</select>
+	<delete id="delMessages" parameterType="po.Messages">
+		delete from message where mid=#{mid}
+	</delete>
+
+
+	<select id="selectGoodsByGname" resultType="po.Goods">
+		select * from goods where gname like "%"#{gname}"%"
+	</select>
+	<update id="changeGoodsSellstaus" parameterType="po.Goods">
+		update goods set sellstaus=0 where gid=#{gid}
+	</update>
+
+</mapper>
